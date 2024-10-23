@@ -13,8 +13,6 @@ In this Quick Start Guide, you will learn how to implement the following:
 4. Accessing Food Details
 
 
-<br/>
-
 # 🚀  <span style="color: #346ddb;">Steps to Run this Repo </span>
 ## Prerequisites
 
@@ -25,16 +23,14 @@ In this Quick Start Guide, you will learn how to implement the following:
      brew install watchman
      ```
 
-     If you haven't set up your environment yet, please      follow this link: Set Up Your Environment.
-     <https://reactnative.dev/docs/set-up-your-environment?     platform=android>
+     If you haven't set up your environment yet, please follow this [link](https://reactnative.dev/docs/set-up-your-environment?platform=android) to Set Up Your Environment.
+  
        
-     <br/>
  2. Yarn Install
 
       ```
       brew install yarn
       ```  
-     <br/>
  3. Expo CLI installed
 
     ```
@@ -65,38 +61,38 @@ npmScopes:
 yarnPath: .yarn/releases/yarn-4.3.1.cjs
 ```
 
-### 3. Create .env file at root and provide PASSIO_KEY
+ 3. Create .env file at root and provide PASSIO_KEY
 
 ```
 PASSIO_KEY = YOUR_PASSIO_KEY
 ```
 
-### 4. Install dependencies
+ 4. Install dependencies
 
 ```bash
    yarn 
 ```
 
-### 5. Create pre build
+ 5. Create pre build
 
 ```bash
    npx expo prebuild --clean    
 ```
 
-### 6. Install pod for IOS
+ 6. Install pod for IOS
 
 ```bash
 cd ios && pod install && cd ..
 
 ```
 
-### 7. Run on IOS
+ 7. Run on IOS
 
 ```bash
 yarn ios
 ```
 
-### 8. Run on android
+ 8. Run on android
 
 ```bash
 yarn android
@@ -110,11 +106,11 @@ yarn android
 
 Follow below instructions for integration
 
-### 1. Create a GitHub Personal Access Token
+ 1. Create a GitHub Personal Access Token
 
 Go to GitHub Settings and create a "classic" personal access token with read:packages access.
 
-### 2. Configure .npmrc
+ 2. Configure .npmrc
 
 Create an .npmrc file in the root directory of your project with the following content, replacing GITHUB_ACCESS_TOKEN with your personal access token:
 
@@ -123,7 +119,7 @@ Create an .npmrc file in the root directory of your project with the following c
 @passiolife:registry=<https://npm.pkg.github.com>
 ```
 
-### 3. Install Passio SDK
+ 3. Install Passio SDK
 
 Add the Passio SDK dependency to your package.json and run either npm or yarn to install it.
 
@@ -139,7 +135,7 @@ For yarn:
 yarn add @passiolife/nutritionai-react-native-sdk-v3
 ```
 
-### 4. Install Expo Build Properties Plugin
+ 4. Install Expo Build Properties Plugin
 
 To manage Android-specific build settings, install the expo-build-properties plugin.
 
@@ -155,7 +151,7 @@ For yarn:
 yarn add expo-build-properties --dev
 ```
 
-### 5. Update app.json for Android and iOS Permissions
+ 5. Update app.json for Android and iOS Permissions
 
 Add the necessary expo-build-properties and expo-camera configurations to app.json at the root of your project.
 
@@ -190,7 +186,7 @@ Add the necessary expo-build-properties and expo-camera configurations to app.js
 }
 ```
 
-### 6. Prebuild the Project
+ 6. Prebuild the Project
 
 Run the following command to generate native build files (this is required for adding the native modules):
 
@@ -198,7 +194,7 @@ Run the following command to generate native build files (this is required for a
 npx expo prebuild --clean
 ```
 
-### 7. iOS: Install CocoaPods
+ 7. iOS: Install CocoaPods
 
 Navigate to the ios directory and install the necessary CocoaPods for iOS:
 
@@ -206,7 +202,7 @@ Navigate to the ios directory and install the necessary CocoaPods for iOS:
 cd ios && pod install && cd ..
 ```
 
-### 8. Run the Project
+ 8. Run the Project
 
 To run the project on iOS:
 
@@ -214,7 +210,7 @@ To run the project on iOS:
 yarn ios
 ```
 
-### 9. To run the project on Android
+ 9. To run the project on Android
 
 ```
 yarn android
@@ -222,7 +218,7 @@ yarn android
 
 ## 2. <span style="color: #346ddb;">How can I integrate the @passiolife/nutritionai-react-native-sdk-v3 from scratch using the Expo CLI framework?</span>
 
-### 1. Create a New Expo Project
+ 1. Create a New Expo Project
 
 First, create a new Expo project if you haven't done so already:
 
