@@ -24,3 +24,6 @@ ios/*
 src/key/index.ts
 key.ts
 yarnrc.yml
+.env
+
+.yarn/

@@ -6,6 +6,7 @@ import {
   PassioSDK,
   PassioTokenBudget,
 } from '@passiolife/nutritionai-react-native-sdk-v3'
+import { PASSIO_KEY } from '@env';
 
 export type SDKStatus = 'init' | 'downloading' | 'error' | 'ready'
 
@@ -25,7 +26,7 @@ export const usePassioSDK = ({
     async function configure() {
       try {
         const status = await PassioSDK.configure({
-          key: key,
+          key:  PASSIO_KEY,
           debugMode: debugMode,
           autoUpdate: autoUpdate,
         })

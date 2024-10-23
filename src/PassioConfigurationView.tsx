@@ -12,13 +12,13 @@ import {
   PassioSDK,
 } from "@passiolife/nutritionai-react-native-sdk-v3";
 import { QuickStartGuide } from "./QuickStartGuide";
-import { PASSIO_KEY } from "./key";
+import { PASSIO_KEY } from '@env';
 export type SDKStatus = 'init' | 'downloading' | 'error' | 'ready'
 
 export const PassioConfigurationView = () => {
   const [sdkStatus, setSDKStatus] = useState<SDKStatus>("init");
   const [leftFile, setDownloadingLeft] = useState<number | null>(null);
-
+                                           
   useEffect(() => {
     async function configure() {
       try {
