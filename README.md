@@ -12,31 +12,34 @@ In this Quick Start Guide, you will learn how to implement the following:
 3. Recognizing Image Remotely
 4. Accessing Food Details
 
-## Steps for run this Repo
 
+<br/>
+
+# 🚀  <span style="color: #346ddb;">Steps to Run this Repo </span>
 ## Prerequisites
 
- Node.js installed
+ 1. Node.js installed
 
-```
-brew install node
-brew install watchman
-```
+     ```
+     brew install node
+     brew install watchman
+     ```
 
-If you haven't set up your environment yet, please follow this link: Set Up Your Environment.
-<https://reactnative.dev/docs/set-up-your-environment?platform=android>
-  
- Yarn Install
+     If you haven't set up your environment yet, please      follow this link: Set Up Your Environment.
+     <https://reactnative.dev/docs/set-up-your-environment?     platform=android>
+       
+     <br/>
+ 2. Yarn Install
 
-```
-brew install yarn
-```  
+      ```
+      brew install yarn
+      ```  
+     <br/>
+ 3. Expo CLI installed
 
- Expo CLI installed
-
-```
-yarn global add expo-cli
-```
+    ```
+    yarn global add expo-cli
+    ```
 
 Access to GitHub Packages (for `@passiolife` scope)
 
@@ -62,46 +65,48 @@ npmScopes:
 yarnPath: .yarn/releases/yarn-4.3.1.cjs
 ```
 
-### 2. Install dependencies
+### 3. Create .env file at root and provide PASSIO_KEY
+
+```
+PASSIO_KEY = YOUR_PASSIO_KEY
+```
+
+### 4. Install dependencies
 
 ```bash
    yarn 
 ```
 
-### 3. Create pre build
+### 5. Create pre build
 
 ```bash
    npx expo prebuild --clean    
 ```
 
-### 4. Install pod for IOS
+### 6. Install pod for IOS
 
 ```bash
 cd ios && pod install && cd ..
 
 ```
 
-### 5. Run on IOS
+### 7. Run on IOS
 
 ```bash
 yarn ios
 ```
 
-### 6. Run on android
+### 8. Run on android
 
 ```bash
 yarn android
 ```
 
-### 7. Create `key.ts` at root level and paste below code
+<br/>
 
-```bash
-export const PASSIO_KEY = "YOUR_PASSIO_KEY";
-```
+# <span style="color: #346ddb;">FAQ</span>
 
-# FAQ
-
-## 1. What are the steps to integrate the @passiolife/nutritionai-react-native-sdk-v3 SDK into my Expo CLI framework project?
+##  <span style="color: #346ddb;">1. What are the steps to integrate the @passiolife/nutritionai-react-native-sdk-v3 SDK into my Expo CLI framework project?</span>
 
 Follow below instructions for integration
 
@@ -215,7 +220,7 @@ yarn ios
 yarn android
 ```
 
-## 2. How can I integrate the @passiolife/nutritionai-react-native-sdk-v3 from scratch using the Expo CLI framework?
+## 2. <span style="color: #346ddb;">How can I integrate the @passiolife/nutritionai-react-native-sdk-v3 from scratch using the Expo CLI framework?</span>
 
 ### 1. Create a New Expo Project
 
@@ -233,3 +238,8 @@ cd my-nutrition-app
 ```
 
 Follow `What are the steps to integrate the @passiolife/nutritionai-react-native-sdk-v3 SDK into my Expo CLI framework project?` Sections for next steps
+
+
+## For more detail click on  [documment](https://passio.gitbook.io/nutrition-ai/guides/react-native-sdk-docs/getting-started) 
+
+
