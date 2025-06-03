@@ -1,100 +1,59 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback } from 'react'
 import {
   PassioAdvisorFoodInfo,
+  PassioFoodItem,
   PassioSDK,
-} from "@passiolife/nutritionai-react-native-sdk-v3";
-import type { Props } from "./RecognizeRemote";
-import { launchImageLibrary } from "react-native-image-picker";
-import { Alert } from "react-native";
-import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
-import BottomSheet from "@gorhom/bottom-sheet";
+} from '@passiolife/nutritionai-react-native-sdk-v3'
+import type { Props } from './RecognizeRemote'
+import { launchImageLibrary } from 'react-native-image-picker'
+import { Alert } from 'react-native'
 
-const useRecognizeRemote = ({}: Props) => {
-  const cameraViewRef = useRef<CameraView>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+const useRecognizeRemote = ({ onFoodDetail }: Props) => {
+  const [loading, setLoading] = useState<boolean>(false)
   const [passioSpeechRecognitionModel, setPassioSpeechRecognitionModel] =
-    useState<PassioAdvisorFoodInfo[] | null>();
-  const [facing, setFacing] = useState<CameraType>("back");
-  const [pictureUri, setPictureUri] = useState<string>("");
-  const [permission, requestPermission] = useCameraPermissions();
-  const sheetRef = useRef<BottomSheet>(null);
+    useState<PassioAdvisorFoodInfo[] | null>()
 
-  useEffect(() => {
-    requestPermission();
-  }, []);
+  const [passioFoodItem, setPassioFoodItem] = useState<PassioFoodItem | null>()
 
-  const handleSheetClose = useCallback(() => {
-    sheetRef.current?.close();
-  }, []);
-
-  const toggleCameraFacing = useCallback(() => {
-    setFacing((current: CameraType) => (current === "back" ? "front" : "back"));
-  }, []);
-
-  const handleCapture = useCallback(async () => {
+  const onScanImage = useCallback(async () => {
     try {
-      const picture = await cameraViewRef.current?.takePictureAsync();
-      setPictureUri(picture?.uri ?? "");
-    } catch (_) {
-      Alert.alert("error while capture image");
-    }
-  }, []);
-
-  const handlePickerImage = useCallback(async () => {
-    try {
-      const { assets } = await launchImageLibrary({
-        mediaType: "photo",
-      });
-      setPictureUri(assets?.[0].uri ?? "");
+      const { assets } = await launchImageLibrary({ mediaType: 'photo' })
+      if (assets) {
+        console.log('image', 'image')
+        setLoading(true)
+        setPassioSpeechRecognitionModel(null)
+        PassioSDK.recognizeImageRemoteWithGrouping(
+          assets?.[0].uri?.replace('file://', '') ?? '',
+          undefined,
+          'RES_512'
+        )
+          .then(async (candidates) => {
+            console.log('candidates', candidates)
+            if (candidates?.status === 'Success') {
+              setPassioFoodItem(candidates.response.items[0].foodItem)
+              onFoodDetail(candidates.response.items[0].foodItem)
+            }
+            // setPassioSpeechRecognitionModel(candidates)
+          })
+          .catch(() => {
+            Alert.alert('Unable to recognized this image')
+          })
+          .finally(() => {
+            setLoading(false)
+          })
+      }
     } catch (err) {
-      setLoading(false);
+      setLoading(false)
     }
-  }, []);
-
-  const handleCloseModal = useCallback(() => {
-    setPictureUri("");
-  }, []);
-
-  const onScanImage = () => {
-    setLoading(true);
-    setPassioSpeechRecognitionModel(null);
-    PassioSDK.recognizeImageRemote(
-      pictureUri?.replace("file://", "") ?? "",
-      undefined,
-      "RES_512"
-    )
-      .then((candidates) => {
-        if (candidates?.length === 0){
-          Alert.alert("unable to find any food.");
-        }else{
-          setPassioSpeechRecognitionModel(candidates);
-        }
-      })
-      .catch((e) => {
-        Alert.alert("Unable to recognized this image");
-      })
-      .finally(() => {
-        setLoading(false);
-        handleCloseModal();
-      });
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return {
-    cameraViewRef,
-    sheetRef,
+    onScanImage,
     passioSpeechRecognitionModel,
     loading,
-    facing,
-    permission,
-    pictureUri,
-    handlePickerImage,
-    toggleCameraFacing,
-    handleCapture,
-    handleCloseModal,
-    requestPermission,
-    onScanImage,
-    handleSheetClose,
-  };
-};
+    passioFoodItem,
+  }
+}
 
-export default useRecognizeRemote;
+export default useRecognizeRemote

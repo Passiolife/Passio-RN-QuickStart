@@ -1,16 +1,13 @@
-import * as React from "react";
-import { StyleSheet, View } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { PassioConfigurationView } from "./PassioConfigurationView";
+import * as React from 'react'
+import { StyleSheet, View } from 'react-native'
+import { LoadingContainerView } from './LoadingContainerView'
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <GestureHandlerRootView>
-        <PassioConfigurationView />
-      </GestureHandlerRootView>
+      <LoadingContainerView />
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -22,4 +19,4 @@ const styles = StyleSheet.create({
     height: 60,
     marginVertical: 20,
   },
-});
+})

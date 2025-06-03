@@ -20,6 +20,7 @@ import {
   PassioFoodItem,
 } from '@passiolife/nutritionai-react-native-sdk-v3'
 import { getNutrientName } from '../utils/nutrients'
+import { FoodSearchView } from '../search'
 
 interface Props {
   onClose: () => void
@@ -38,10 +39,16 @@ const FoodDetail = (props: Props) => {
     textInputServingQty,
     foodNutrients,
     showAddIngredients,
+    predictNextIngredients,
     onAddIngredients,
     passioFoodItem,
     closeAddIngredients,
     isAddIngredients,
+    onReport,
+    onSubmitUserCreatedFood,
+    onFetchNutrientsFor,
+    onFetchTagsFor,
+    score,
   } = useFoodDetail(props)
 
   const nutrients = foodNutrients
@@ -143,12 +150,12 @@ const FoodDetail = (props: Props) => {
               />
             </>
           )}
-        {/* <Pressable
+        <Pressable
           style={styles.addIngredientsContainer}
           onPress={showAddIngredients}
         >
           <Text style={styles.addIngredients}>Add Ingredients</Text>
-        </Pressable> */}
+        </Pressable>
       </View>
     )
   }
@@ -246,15 +253,33 @@ const FoodDetail = (props: Props) => {
             <View style={styles.line} />
             <View style={styles.line} />
             <View style={styles.line} />
+            <TouchableOpacity onPress={onReport}>
+              <Text>Submit Report </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onSubmitUserCreatedFood}>
+              <Text>SubmitUserCreatedFood </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onFetchNutrientsFor}>
+              <Text>onFetchNutrientsFor </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onFetchTagsFor}>
+              <Text>onFetchTagsFor </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={predictNextIngredients}>
+              <Text>predictNextIngredients </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={score}>
+              <Text>Score </Text>
+            </TouchableOpacity>
           </View>
         )}
       </ScrollView>
-      {/* <Modal visible={isAddIngredients}>
+      <Modal visible={isAddIngredients}>
         <FoodSearchView
           onClose={closeAddIngredients}
           onFoodDetail={onAddIngredients}
         />
-      </Modal> */}
+      </Modal>
     </SafeAreaView>
   )
 }

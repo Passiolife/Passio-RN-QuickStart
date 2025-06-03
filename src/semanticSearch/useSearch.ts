@@ -4,7 +4,7 @@ import {
   type PassioFoodDataInfo,
 } from '@passiolife/nutritionai-react-native-sdk-v3'
 import { useDebounce } from '../utils/common'
-import type { Props } from './FoodSearch'
+import type { Props } from './SemanticSearch'
 
 const useFoodSearch = ({ onFoodDetail }: Props) => {
   // State variables
@@ -31,7 +31,7 @@ const useFoodSearch = ({ onFoodDetail }: Props) => {
 
         try {
           // Fetch food results from the PassioSDK based on the query
-          const searchFoods = await PassioSDK.searchForFood(query)
+          const searchFoods = await PassioSDK.searchForFoodSemantic(query)
           setFoodResults(searchFoods?.results)
           setAlternative(searchFoods?.alternatives)
         } catch (error) {
@@ -75,6 +75,10 @@ const useFoodSearch = ({ onFoodDetail }: Props) => {
   const onSearchResultItemPress = useCallback(
     async (foodSearchResult: PassioFoodDataInfo) => {
       // Achieved Result through `fetchSearchResult`
+      console.log(
+        'foodSearchResult=========>',
+        JSON.stringify(foodSearchResult)
+      )
       const result = await PassioSDK.fetchFoodItemForDataInfo(
         foodSearchResult,
         foodSearchResult.nutritionPreview?.servingQuantity,
@@ -86,7 +90,6 @@ const useFoodSearch = ({ onFoodDetail }: Props) => {
           JSON.stringify(result)
         )
         onFoodDetail(result)
-      } else {
       }
     },
     [onFoodDetail]

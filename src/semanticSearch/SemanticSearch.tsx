@@ -2,9 +2,11 @@ import React from 'react'
 import {
   ActivityIndicator,
   FlatList,
+  Pressable,
   SafeAreaView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   Image,
   View,
@@ -12,11 +14,10 @@ import {
 import {
   PassioIconView,
   IconSize,
-  PassioSDK,
+  PassioFoodDataInfo,
   PassioFoodItem,
-  PassioAdvisorFoodInfo,
 } from '@passiolife/nutritionai-react-native-sdk-v3'
-import useRecognizeRemote from './useRecognizeRemote'
+import useFoodSearch from './useSearch'
 
 export interface Props {
   onClose: () => void
@@ -24,50 +25,70 @@ export interface Props {
 }
 
 // FoodSearchScreen component
-export const RecognizeImageRemote = (props: Props) => {
+export const SemanticSearchView = (props: Props) => {
   // Get styles object from the searchStyle function
   const styles = searchStyle()
 
   // Destructure values from the custom hook
-  const { loading, passioSpeechRecognitionModel, onScanImage } =
-    useRecognizeRemote(props)
+  const {
+    searchQuery,
+    onSearchFood,
+    foodResults,
+    loading,
+    alternatives,
+    onSearchResultItemPress,
+  } = useFoodSearch(props)
 
   // Function to render each item in the FlatList
-  const renderSearchItem = ({ item }: { item: PassioAdvisorFoodInfo }) => {
+  const renderSearchItem = ({ item }: { item: PassioFoodDataInfo }) => {
     return (
       <TouchableOpacity
         style={styles.itemContainer}
-        onPress={async () => {
-          if (item.packagedFoodItem) {
-            props.onFoodDetail(item.packagedFoodItem)
-          } else {
-            if (item.foodDataInfo) {
-              const dataInfo = await PassioSDK.fetchFoodItemForDataInfo(
-                item?.foodDataInfo
-              )
-              if (dataInfo) {
-                props.onFoodDetail(dataInfo)
-              }
-            }
-          }
-        }}
+        onPress={() => onSearchResultItemPress(item)}
       >
         <View style={styles.itemIconContainer}>
           <PassioIconView
             style={styles.itemIcon}
             config={{
-              passioID: item?.foodDataInfo?.iconID ?? '',
+              passioID: item.iconID,
               iconSize: IconSize.PX360,
             }}
           />
         </View>
         <View>
-          <Text style={styles.itemFoodName}>{item?.recognisedName}</Text>
-          <Text style={styles.itemFoodName}>
-            {item?.portionSize + ' |  ' + item.weightGrams}
+          <Text style={styles.itemFoodName}>{item.foodName}</Text>
+          <Text style={styles.itemBrandName}>
+            {'calories ' +
+              Math.round(item.nutritionPreview?.calories ?? 0) +
+              ' kcal | '}
+            <Text style={styles.itemBrandName}>
+              {'fat ' + Math.round(item.nutritionPreview?.fat ?? 0)}
+            </Text>
+            <Text style={styles.itemBrandName}>
+              {' | protein ' + item.nutritionPreview?.protein.toFixed(2)}
+            </Text>
+          </Text>
+
+          <Text style={styles.itemBrandName}>
+            {'carbs ' + item.nutritionPreview?.carbs.toFixed(2)}
+          </Text>
+
+          <Text style={styles.itemBrandName}>
+            {'fiber ' + item.nutritionPreview?.fiber.toFixed(2)}
           </Text>
         </View>
       </TouchableOpacity>
+    )
+  }
+
+  const renderAlternativeItem = ({ item }: { item: string }) => {
+    return (
+      <Pressable
+        style={styles.alternativeContainer}
+        onPress={() => onSearchFood(item)}
+      >
+        <Text style={styles.itemAlternativeName}>{item}</Text>
+      </Pressable>
     )
   }
 
@@ -88,16 +109,30 @@ export const RecognizeImageRemote = (props: Props) => {
         </TouchableOpacity>
       </View>
       {/* Search input */}
-      <TouchableOpacity onPress={onScanImage} style={styles.textInput}>
-        <Text style={{ color: 'white' }}>Pick Image</Text>
-      </TouchableOpacity>
+      <TextInput
+        value={searchQuery}
+        style={styles.textInput}
+        placeholder={'Type in food name for semantic search'}
+        placeholderTextColor={'gray'}
+        onChangeText={onSearchFood}
+      />
 
       <FlatList
-        data={passioSpeechRecognitionModel}
+        data={foodResults}
         contentContainerStyle={styles.list}
         renderItem={renderSearchItem}
         ListEmptyComponent={renderLoading}
-        keyExtractor={(index) => 'item.advisorInfo?.foodDataInfo' + index}
+        ListHeaderComponent={() => (
+          <FlatList
+            data={alternatives}
+            contentContainerStyle={styles.itemAlternativeContainer}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={renderAlternativeItem}
+            keyExtractor={(item, index) => item.toString() + index}
+          />
+        )}
+        keyExtractor={(item, index) => item.iconID.toString() + index}
       />
     </SafeAreaView>
   )
@@ -171,12 +206,10 @@ const searchStyle = () =>
       width: 46,
     },
     textInput: {
-      backgroundColor: 'blue',
+      backgroundColor: 'white',
       paddingHorizontal: 16,
       padding: 12,
-      alignItems: 'center',
-      color: 'white',
-      borderRadius: 16,
+      color: 'black',
       fontWeight: '500',
       fontSize: 16,
       marginHorizontal: 16,
