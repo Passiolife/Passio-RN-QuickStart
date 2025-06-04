@@ -21,8 +21,6 @@ expo-env.d.ts
 .npmrc
 android/*
 ios/*
-src/key/index.ts
-key.ts
 yarnrc.yml
 .env
 
